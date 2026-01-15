@@ -332,104 +332,16 @@
             }
         }
 
-        /* SLIDE 2 */
-        #slide2 {
-            position: relative;
-            overflow: hidden;
-            background: url('slide2.png') center center no-repeat;
-            background-size: cover;
-            background-position: center center;
-        }
-
-        /* SLIDE 3 */
-        #slide3 {
-            position: relative;
-            overflow: hidden;
-            background: url('slide3.png') center center no-repeat;
-            background-size: cover;
-            background-position: center center;
-        }
-
-        /* Pulse animation for icons/boxes */
-        .pulse-glow {
-            position: absolute;
-            border-radius: 10px;
-            pointer-events: none;
-            filter: blur(30px);
-            animation: pulseGlow 3s ease-in-out infinite;
-        }
-
-        @keyframes pulseGlow {
-            0%, 100% {
-                opacity: 0.3;
-                transform: scale(1);
-            }
-            50% {
-                opacity: 0.6;
-                transform: scale(1.1);
-            }
-        }
-
-        /* Golden box glow for slide 2 */
-        .golden-box-glow {
-            position: absolute;
-            bottom: 25%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 600px;
-            height: 150px;
-            background: radial-gradient(ellipse, rgba(255, 200, 50, 0.4) 0%, transparent 70%);
-            filter: blur(40px);
-            animation: pulseGlow 2.5s ease-in-out infinite;
-        }
-
-        /* Icon glows for slide 3 */
-        .icon-glow {
-            position: absolute;
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            filter: blur(25px);
-            animation: pulseGlow 3s ease-in-out infinite;
-        }
-
-        .icon-glow-1 {
-            top: 30%;
-            left: 15%;
-            background: radial-gradient(circle, rgba(255, 200, 50, 0.4) 0%, transparent 70%);
-        }
-
-        .icon-glow-2 {
-            top: 30%;
-            left: 37%;
-            background: radial-gradient(circle, rgba(100, 150, 255, 0.4) 0%, transparent 70%);
-            animation-delay: 0.5s;
-        }
-
-        .icon-glow-3 {
-            top: 30%;
-            right: 37%;
-            background: radial-gradient(circle, rgba(255, 100, 100, 0.4) 0%, transparent 70%);
-            animation-delay: 1s;
-        }
-
-        .icon-glow-4 {
-            top: 30%;
-            right: 15%;
-            background: radial-gradient(circle, rgba(150, 150, 255, 0.4) 0%, transparent 70%);
-            animation-delay: 1.5s;
-        }
-
         /* Force full screen on all devices */
         @media screen and (max-width: 1920px) {
-            #slide1, #slide2, #slide3 {
+            #slide1 {
                 background-size: cover !important;
                 background-position: center center !important;
             }
         }
 
         @media screen and (max-width: 768px) {
-            #slide1, #slide2, #slide3 {
+            #slide1 {
                 background-size: cover !important;
                 background-position: center center !important;
             }
@@ -468,57 +380,6 @@
                 <div class="glow-spot glow-onair"></div>
                 <div class="glow-spot glow-play"></div>
                 <div class="glow-spot glow-heart"></div>
-
-                <!-- Shimmer effect -->
-                <div class="shimmer"></div>
-            </section>
-
-            <!-- SLIDE 2 -->
-            <section id="slide2">
-                <!-- Animated gradient overlay -->
-                <div class="gradient-overlay"></div>
-
-                <!-- Light rays from city -->
-                <div class="light-rays" id="lightRays2"></div>
-
-                <!-- Floating particles -->
-                <div class="particles" id="particles2"></div>
-
-                <!-- Twinkling stars -->
-                <div class="stars" id="stars2"></div>
-
-                <!-- Vignette -->
-                <div class="vignette"></div>
-
-                <!-- Golden box glow -->
-                <div class="golden-box-glow"></div>
-
-                <!-- Shimmer effect -->
-                <div class="shimmer"></div>
-            </section>
-
-            <!-- SLIDE 3 -->
-            <section id="slide3">
-                <!-- Animated gradient overlay -->
-                <div class="gradient-overlay"></div>
-
-                <!-- Light rays from city -->
-                <div class="light-rays" id="lightRays3"></div>
-
-                <!-- Floating particles -->
-                <div class="particles" id="particles3"></div>
-
-                <!-- Twinkling stars -->
-                <div class="stars" id="stars3"></div>
-
-                <!-- Vignette -->
-                <div class="vignette"></div>
-
-                <!-- Icon glows for the 4 icons -->
-                <div class="icon-glow icon-glow-1"></div>
-                <div class="icon-glow icon-glow-2"></div>
-                <div class="icon-glow icon-glow-3"></div>
-                <div class="icon-glow icon-glow-4"></div>
 
                 <!-- Shimmer effect -->
                 <div class="shimmer"></div>
@@ -598,78 +459,6 @@
             star.style.animationDelay = Math.random() * 4 + 's';
             star.style.animationDuration = (3 + Math.random() * 2) + 's';
             starsContainer.appendChild(star);
-        }
-
-        // SLIDE 2 ANIMATIONS
-        // Generate floating particles for slide 2
-        const particlesContainer2 = document.getElementById('particles2');
-        for (let i = 0; i < 40; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.bottom = '-5%';
-            particle.style.animationDelay = Math.random() * 20 + 's';
-            particle.style.animationDuration = (15 + Math.random() * 10) + 's';
-            particlesContainer2.appendChild(particle);
-        }
-
-        // Generate light rays for slide 2
-        const lightRaysContainer2 = document.getElementById('lightRays2');
-        for (let i = 0; i < 20; i++) {
-            const ray = document.createElement('div');
-            ray.className = 'ray';
-            ray.style.left = (i * 5) + '%';
-            ray.style.animationDelay = (i * 0.2) + 's';
-            ray.style.animationDuration = (4 + Math.random() * 2) + 's';
-            lightRaysContainer2.appendChild(ray);
-        }
-
-        // Generate twinkling stars for slide 2
-        const starsContainer2 = document.getElementById('stars2');
-        for (let i = 0; i < 140; i++) {
-            const star = document.createElement('div');
-            star.className = 'star';
-            star.style.left = Math.random() * 100 + '%';
-            star.style.top = Math.random() * 100 + '%';
-            star.style.animationDelay = Math.random() * 4 + 's';
-            star.style.animationDuration = (3 + Math.random() * 2) + 's';
-            starsContainer2.appendChild(star);
-        }
-
-        // SLIDE 3 ANIMATIONS
-        // Generate floating particles for slide 3
-        const particlesContainer3 = document.getElementById('particles3');
-        for (let i = 0; i < 40; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.left = Math.random() * 100 + '%';
-            particle.style.bottom = '-5%';
-            particle.style.animationDelay = Math.random() * 20 + 's';
-            particle.style.animationDuration = (15 + Math.random() * 10) + 's';
-            particlesContainer3.appendChild(particle);
-        }
-
-        // Generate light rays for slide 3
-        const lightRaysContainer3 = document.getElementById('lightRays3');
-        for (let i = 0; i < 20; i++) {
-            const ray = document.createElement('div');
-            ray.className = 'ray';
-            ray.style.left = (i * 5) + '%';
-            ray.style.animationDelay = (i * 0.2) + 's';
-            ray.style.animationDuration = (4 + Math.random() * 2) + 's';
-            lightRaysContainer3.appendChild(ray);
-        }
-
-        // Generate twinkling stars for slide 3
-        const starsContainer3 = document.getElementById('stars3');
-        for (let i = 0; i < 140; i++) {
-            const star = document.createElement('div');
-            star.className = 'star';
-            star.style.left = Math.random() * 100 + '%';
-            star.style.top = Math.random() * 100 + '%';
-            star.style.animationDelay = Math.random() * 4 + 's';
-            star.style.animationDuration = (3 + Math.random() * 2) + 's';
-            starsContainer3.appendChild(star);
         }
     </script>
 </body>
