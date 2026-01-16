@@ -1,11 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>EbroLauraRosenberg - Website Proposal</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.css">
-
     <style>
         * {
             margin: 0;
@@ -13,87 +11,48 @@
             box-sizing: border-box;
         }
 
-        html, body {
-            width: 100%;
-            height: 100%;
+        body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
             background: #000;
-            overflow: hidden;
         }
 
-        .reveal {
-            width: 100vw !important;
-            height: 100vh !important;
+        /* Slide container */
+        .slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
         }
 
-        .reveal .slides {
-            width: 100% !important;
-            height: 100% !important;
+        .slide.active {
+            opacity: 1;
+            visibility: visible;
         }
 
-        .reveal .slides section {
-            background: none;
-            height: 100vh !important;
-            width: 100vw !important;
-            padding: 0 !important;
-            margin: 0 !important;
-            top: 0 !important;
-            left: 0 !important;
-        }
-
-        /* SLIDE 1 */
-        #slide1 {
+        /* Background container */
+        .bg-container {
             position: relative;
-            overflow: hidden;
-            background: url('slide1.png') center center no-repeat;
+            width: 100%;
+            height: 100%;
+            background: url('background.png') center center no-repeat;
             background-size: cover;
-            background-position: center center;
         }
 
-        /* Animated gradient overlay */
-        .gradient-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                180deg,
-                rgba(0, 20, 50, 0.1) 0%,
-                rgba(255, 100, 50, 0.05) 50%,
-                rgba(0, 10, 30, 0.1) 100%
-            );
-            animation: gradientShift 10s ease infinite;
-            mix-blend-mode: overlay;
-            pointer-events: none;
-        }
-
-        @keyframes gradientShift {
-            0%, 100% {
-                opacity: 0.3;
-            }
-            50% {
-                opacity: 0.6;
-            }
-        }
-
-        /* Floating light particles */
-        .particles {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-        }
-
+        /* Floating particles */
         .particle {
             position: absolute;
             width: 3px;
             height: 3px;
             background: rgba(255, 255, 255, 0.6);
             border-radius: 50%;
-            animation: floatUp 20s infinite ease-in-out;
             box-shadow: 0 0 8px rgba(255, 255, 255, 0.4);
+            animation: floatUp 20s infinite ease-in-out;
         }
 
         @keyframes floatUp {
@@ -113,18 +72,8 @@
             }
         }
 
-        /* Light rays from cityscape */
-        .light-rays {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            overflow: hidden;
-        }
-
-        .ray {
+        /* Light rays */
+        .light-ray {
             position: absolute;
             bottom: 0;
             width: 2px;
@@ -145,168 +94,250 @@
             }
         }
 
-        /* Twinkling stars */
-        .stars {
+        /* Main Title Text */
+        .title-container {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 60%;
-            pointer-events: none;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
         }
 
-        .star {
-            position: absolute;
-            width: 2px;
-            height: 2px;
-            background: white;
-            border-radius: 50%;
-            animation: twinkle 4s ease-in-out infinite;
-            box-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
+        .the-text {
+            font-family: 'Brush Script MT', cursive;
+            font-size: 80px;
+            color: #2C3E50;
+            font-style: italic;
+            margin-bottom: -20px;
+            animation: slideInTop 1s ease-out;
         }
 
-        @keyframes twinkle {
+        .main-names {
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            font-size: 120px;
+            font-weight: 900;
+            letter-spacing: 6px;
+            line-height: 0.9;
+            background: linear-gradient(135deg, #C41E3A, #8B0000, #C41E3A);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 4s ease infinite, slideInCenter 1.2s ease-out 0.3s backwards;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .show-text {
+            font-family: 'Brush Script MT', cursive;
+            font-size: 70px;
+            color: #2C3E50;
+            font-style: italic;
+            margin-top: -10px;
+            animation: slideInBottom 1.4s ease-out 0.6s backwards;
+        }
+
+        @keyframes gradientShift {
             0%, 100% {
-                opacity: 0.2;
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+        }
+
+        @keyframes slideInTop {
+            0% {
+                opacity: 0;
+                transform: translateY(-50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInCenter {
+            0% {
+                opacity: 0;
                 transform: scale(0.8);
             }
-            50% {
+            100% {
                 opacity: 1;
-                transform: scale(1.3);
+                transform: scale(1);
             }
         }
 
-        /* Subtle vignette */
-        .vignette {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at center, transparent 40%, rgba(0, 0, 0, 0.4) 100%);
-            pointer-events: none;
+        @keyframes slideInBottom {
+            0% {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
-        /* Glowing hotspots (for ON AIR, play button, heart) */
-        .glow-spot {
-            position: absolute;
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            pointer-events: none;
-            filter: blur(50px);
-        }
-
-        .glow-onair {
-            bottom: 15%;
-            left: 18%;
+        /* Divider line */
+        .divider {
             width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(173, 43, 48, 0.5) 0%, rgba(173, 43, 48, 0.3) 50%, transparent 70%);
-            animation: glowPulse 2s ease-in-out infinite;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #C41E3A, transparent);
+            margin: 30px auto;
+            animation: fadeIn 1.8s ease-out 0.9s backwards;
         }
 
-        .glow-play {
-            bottom: 15%;
+        /* Subtitle */
+        .subtitle {
+            font-family: 'Arial', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            color: #B6D1F3;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            animation: fadeIn 2s ease-out 1.2s backwards;
+        }
+
+        /* Tagline */
+        .tagline {
+            font-family: 'Georgia', serif;
+            font-size: 22px;
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.9);
+            animation: fadeIn 2.2s ease-out 1.5s backwards;
+        }
+
+        .tagline .emphasis {
+            font-weight: bold;
+            color: #FFD700;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Blood in the Water text */
+        .blood-text {
+            position: absolute;
+            bottom: 80px;
             left: 50%;
             transform: translateX(-50%);
-            width: 350px;
-            height: 350px;
-            background: radial-gradient(circle, rgba(74, 159, 255, 0.5) 0%, rgba(74, 159, 255, 0.3) 50%, transparent 70%);
-            animation: glowPulse 2.5s ease-in-out infinite;
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            font-size: 42px;
+            font-weight: 900;
+            letter-spacing: 3px;
+            background: linear-gradient(120deg,
+                #0A4D68 0%,
+                #1A6B8C 15%,
+                #C41E3A 25%,
+                #8B0000 35%,
+                #0A4D68 45%,
+                #1A6B8C 55%,
+                #C41E3A 65%,
+                #8B0000 75%,
+                #0A4D68 85%,
+                #1A6B8C 100%);
+            background-size: 300% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+            filter: drop-shadow(0 0 20px rgba(196, 30, 58, 0.6)) drop-shadow(0 0 10px rgba(10, 77, 104, 0.4));
+            animation: bloodAppear 2s ease-out 4s backwards, bloodFloat 3s ease-in-out 6s infinite, bloodSpread 20s linear infinite;
         }
 
-        .glow-heart {
-            bottom: 15%;
-            right: 18%;
-            width: 300px;
-            height: 300px;
-            background: radial-gradient(circle, rgba(255, 100, 150, 0.5) 0%, rgba(255, 100, 150, 0.3) 50%, transparent 70%);
-            animation: heartGlow 1.5s ease-in-out infinite;
+        @keyframes bloodAppear {
+            0% {
+                opacity: 0;
+                transform: translateX(-50%) scale(0.5);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(-50%) scale(1);
+            }
         }
 
-        @keyframes glowPulse {
+        @keyframes bloodFloat {
             0%, 100% {
-                opacity: 0.5;
-                transform: scale(1);
+                transform: translateX(-50%) translateY(0) scale(1);
+            }
+            50% {
+                transform: translateX(-50%) translateY(-10px) scale(1.05);
+            }
+        }
+
+        @keyframes bloodSpread {
+            0% {
+                background-position: 0% 50%;
+            }
+            100% {
+                background-position: 300% 50%;
+            }
+        }
+
+        /* Click Me text */
+        .click-me {
+            position: absolute;
+            bottom: 55px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Georgia', serif;
+            font-size: 14px;
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.7);
+            cursor: pointer;
+            animation: fadeIn 2s ease-out 4s backwards, textPulse 1.5s ease-in-out 6s infinite;
+        }
+
+        @keyframes textPulse {
+            0%, 100% {
+                opacity: 0.7;
             }
             50% {
                 opacity: 1;
-                transform: scale(1.1);
             }
         }
 
-        @keyframes heartGlow {
-            0%, 100% {
-                opacity: 0.5;
-                transform: scale(1);
-            }
-            10% {
-                opacity: 0.8;
-                transform: scale(1.15);
-            }
-            20% {
-                opacity: 0.5;
-                transform: scale(1);
-            }
-            30% {
-                opacity: 0.8;
-                transform: scale(1.15);
-            }
-            40% {
-                opacity: 0.5;
-                transform: scale(1);
-            }
-        }
-
-        /* Text glow effects */
-        .text-glow {
+        /* .LIVE indicator */
+        .live-indicator {
             position: absolute;
-            width: 100%;
-            height: 40%;
-            top: 25%;
-            left: 0;
-            pointer-events: none;
+            top: 30px;
+            right: 40px;
+            font-family: 'Arial', sans-serif;
+            font-size: 24px;
+            font-weight: 900;
+            color: #C41E3A;
+            text-shadow: 0 0 15px rgba(196, 30, 58, 0.8);
+            animation: slideInFromLeft 1s ease-out 4s backwards, blink 1.5s ease-in-out 5s infinite;
         }
 
-        .name-glow {
-            position: absolute;
-            width: 80%;
-            left: 10%;
-            height: 33.33%;
-            filter: blur(40px);
-            animation: textGlowPulse 3s ease-in-out infinite;
+        @keyframes slideInFromLeft {
+            0% {
+                opacity: 0;
+                transform: translateX(-100px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateX(0);
+            }
         }
 
-        .glow-ebro {
-            top: 0;
-            background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.15) 0%, transparent 70%);
-        }
-
-        .glow-laura {
-            top: 33.33%;
-            background: radial-gradient(ellipse at center, rgba(255, 165, 0, 0.2) 0%, transparent 70%);
-            animation-delay: 0.5s;
-        }
-
-        .glow-rosenberg {
-            top: 66.66%;
-            background: radial-gradient(ellipse at center, rgba(182, 209, 243, 0.2) 0%, transparent 70%);
-            animation-delay: 1s;
-        }
-
-        @keyframes textGlowPulse {
+        @keyframes blink {
             0%, 100% {
-                opacity: 0.4;
-                transform: scale(1);
+                opacity: 1;
             }
             50% {
-                opacity: 0.8;
-                transform: scale(1.05);
+                opacity: 0.3;
             }
         }
 
-        /* Ambient light shimmer */
+        /* Shimmer effect */
         .shimmer {
             position: absolute;
             top: 0;
@@ -332,140 +363,1228 @@
             }
         }
 
-        /* SLIDE 2 */
-        #slide2 {
-            position: relative;
-            overflow: hidden;
-            background: url('slide2.png') center center no-repeat;
-            background-size: cover;
-            background-position: center center;
-        }
-
-        /* Golden box glow for slide 2 */
-        .golden-box-glow {
+        /* Vignette */
+        .vignette {
             position: absolute;
-            bottom: 25%;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 600px;
-            height: 150px;
-            background: radial-gradient(ellipse, rgba(255, 200, 50, 0.4) 0%, transparent 70%);
-            filter: blur(40px);
-            animation: pulseGlow 2.5s ease-in-out infinite;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent 40%, rgba(0, 0, 0, 0.4) 100%);
+            pointer-events: none;
         }
 
-        @keyframes pulseGlow {
+        /* SLIDE 2 STYLES */
+        #slide2 .bg-container {
+            position: relative;
+        }
+
+        #slide2 .bg-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        #slide2 .shimmer,
+        #slide2 .vignette,
+        #slide2 .slide2-content,
+        #slide2 .nav-arrow-container {
+            position: absolute;
+            z-index: 10;
+        }
+
+        .slide2-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            width: 85%;
+            max-width: 1100px;
+        }
+
+        .slide2-title {
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            font-size: 56px;
+            font-weight: 900;
+            color: #C41E3A;
+            letter-spacing: 6px;
+            text-align: left;
+            margin-bottom: 70px;
+            text-shadow: 0 0 40px rgba(196, 30, 58, 0.9), 3px 3px 10px rgba(0, 0, 0, 0.9);
+            border-left: 8px solid #C41E3A;
+            padding-left: 30px;
+            animation: slideInFromLeft 1s ease-out 0.3s backwards;
+        }
+
+        .content-section {
+            margin-bottom: 50px;
+            position: relative;
+            padding-left: 40px;
+        }
+
+        .content-section::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, #C41E3A, transparent);
+        }
+
+        .section-number {
+            font-family: 'Impact', sans-serif;
+            font-size: 80px;
+            font-weight: 900;
+            color: rgba(196, 30, 58, 0.2);
+            position: absolute;
+            left: -20px;
+            top: -20px;
+            line-height: 1;
+        }
+
+        .section-header {
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            font-size: 42px;
+            font-weight: 900;
+            letter-spacing: 3px;
+            color: white;
+            text-shadow: 0 0 25px rgba(255, 255, 255, 0.5), 2px 2px 8px rgba(0, 0, 0, 0.9);
+            margin-bottom: 12px;
+            line-height: 1.2;
+            text-align: left;
+        }
+
+        .section-text {
+            font-family: 'Arial', sans-serif;
+            font-size: 22px;
+            color: rgba(255, 255, 255, 0.85);
+            line-height: 1.5;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            text-align: left;
+            font-weight: 300;
+        }
+
+        .highlight {
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            font-size: 48px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, #C41E3A, #FF6B6B, #C41E3A);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: none;
+            filter: drop-shadow(0 0 30px rgba(196, 30, 58, 0.9));
+            animation: gradientShift 4s ease infinite;
+            display: inline;
+        }
+
+        /* Staggered slide-in animations for content */
+        #slide2 .content-section:nth-child(2) {
+            animation: slideInFromLeft 1s ease-out 1.3s backwards;
+        }
+
+        #slide2 .content-section:nth-child(3) {
+            animation: slideInFromLeft 1s ease-out 2.3s backwards;
+        }
+
+        #slide2 .content-section:nth-child(4) {
+            animation: slideInFromLeft 1s ease-out 3.3s backwards;
+        }
+
+        /* SLIDE 3 STYLES - Same as Slide 2 */
+        #slide3 .bg-container {
+            position: relative;
+        }
+
+        #slide3 .bg-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        #slide3 .shimmer,
+        #slide3 .vignette,
+        #slide3 .slide2-content,
+        #slide3 .nav-arrow-container {
+            position: absolute;
+            z-index: 10;
+        }
+
+        #slide3 .content-section:nth-child(2) {
+            animation: slideInFromLeft 1s ease-out 1.3s backwards;
+        }
+
+        #slide3 .content-section:nth-child(3) {
+            animation: slideInFromLeft 1s ease-out 2.3s backwards;
+        }
+
+        #slide3 .content-section:nth-child(4) {
+            animation: slideInFromLeft 1s ease-out 3.3s backwards;
+        }
+
+        /* SLIDE 4 STYLES - Same as Slide 2 and 3 */
+        #slide4 .bg-container {
+            position: relative;
+        }
+
+        #slide4 .bg-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        #slide4 .shimmer,
+        #slide4 .vignette,
+        #slide4 .slide2-content,
+        #slide4 .nav-arrow-container {
+            position: absolute;
+            z-index: 10;
+        }
+
+        #slide4 .content-section:nth-child(2) {
+            animation: slideInFromLeft 1s ease-out 1.3s backwards;
+        }
+
+        #slide4 .content-section:nth-child(3) {
+            animation: slideInFromLeft 1s ease-out 2.3s backwards;
+        }
+
+        #slide4 .content-section:nth-child(4) {
+            animation: slideInFromLeft 1s ease-out 3.3s backwards;
+        }
+
+        /* SLIDE 5 STYLES - Same as Slide 2, 3, and 4 */
+        #slide5 .bg-container {
+            position: relative;
+        }
+
+        #slide5 .bg-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        #slide5 .shimmer,
+        #slide5 .vignette,
+        #slide5 .slide2-content,
+        #slide5 .nav-arrow-container {
+            position: absolute;
+            z-index: 10;
+        }
+
+        #slide5 .content-section:nth-child(2) {
+            animation: slideInFromLeft 1s ease-out 1.3s backwards;
+        }
+
+        #slide5 .content-section:nth-child(3) {
+            animation: slideInFromLeft 1s ease-out 2.3s backwards;
+        }
+
+        #slide5 .content-section:nth-child(4) {
+            animation: slideInFromLeft 1s ease-out 3.3s backwards;
+        }
+
+        #slide5 .content-section:nth-child(5) {
+            animation: slideInFromLeft 1s ease-out 4.3s backwards;
+        }
+
+        /* SLIDE 6 STYLES - Same as Slide 2, 3, 4, and 5 */
+        #slide6 .bg-container {
+            position: relative;
+        }
+
+        #slide6 .bg-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        #slide6 .shimmer,
+        #slide6 .vignette,
+        #slide6 .slide2-content,
+        #slide6 .nav-arrow-container {
+            position: absolute;
+            z-index: 10;
+        }
+
+        #slide6 .content-section:nth-child(2) {
+            animation: slideInFromLeft 1s ease-out 1.3s backwards;
+        }
+
+        #slide6 .content-section:nth-child(3) {
+            animation: slideInFromLeft 1s ease-out 2.3s backwards;
+        }
+
+        #slide6 .content-section:nth-child(4) {
+            animation: slideInFromLeft 1s ease-out 3.3s backwards;
+        }
+
+        /* SLIDE 7 STYLES - Same as Slide 2, 3, 4, 5, and 6 */
+        #slide7 .bg-container {
+            position: relative;
+        }
+
+        #slide7 .bg-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        #slide7 .shimmer,
+        #slide7 .vignette,
+        #slide7 .slide2-content,
+        #slide7 .nav-arrow-container {
+            position: absolute;
+            z-index: 10;
+        }
+
+        #slide7 .content-section:nth-child(2) {
+            animation: slideInFromLeft 1s ease-out 1.3s backwards;
+        }
+
+        #slide7 .content-section:nth-child(3) {
+            animation: slideInFromLeft 1s ease-out 2.3s backwards;
+        }
+
+        #slide7 .content-section:nth-child(4) {
+            animation: slideInFromLeft 1s ease-out 3.3s backwards;
+        }
+
+        /* SLIDE 8 STYLES - Final Slide */
+        #slide8 .bg-container {
+            position: relative;
+        }
+
+        #slide8 .bg-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        #slide8 .shimmer,
+        #slide8 .vignette,
+        #slide8 .final-content,
+        #slide8 .nav-arrow-container {
+            position: absolute;
+            z-index: 10;
+        }
+
+        .final-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+            z-index: 10;
+            width: 90%;
+            max-width: 1200px;
+        }
+
+        .final-title {
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            font-size: 80px;
+            font-weight: 900;
+            color: white;
+            letter-spacing: 6px;
+            line-height: 1.2;
+            margin-bottom: 80px;
+            text-shadow: 0 0 40px rgba(255, 255, 255, 0.6), 3px 3px 10px rgba(0, 0, 0, 0.9);
+            animation: fadeIn 1s ease-out 0.5s backwards;
+        }
+
+        .final-subtitle {
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            font-size: 48px;
+            font-weight: 900;
+            color: #C41E3A;
+            letter-spacing: 4px;
+            margin-bottom: 60px;
+            text-shadow: 0 0 30px rgba(196, 30, 58, 0.8), 2px 2px 8px rgba(0, 0, 0, 0.9);
+            animation: fadeIn 1s ease-out 1.2s backwards;
+        }
+
+        .dance-button {
+            display: inline-block;
+            padding: 30px 80px;
+            font-family: 'Impact', 'Arial Black', sans-serif;
+            font-size: 48px;
+            font-weight: 900;
+            letter-spacing: 4px;
+            color: white;
+            background: linear-gradient(135deg, #C41E3A, #8B0000);
+            border: 4px solid white;
+            border-radius: 10px;
+            cursor: pointer;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+            box-shadow: 0 0 40px rgba(196, 30, 58, 0.8), 0 8px 20px rgba(0, 0, 0, 0.6);
+            animation: fadeIn 1s ease-out 1.9s backwards, buttonPulse 2s ease-in-out 2.9s infinite;
+            transition: transform 0.2s ease;
+        }
+
+        .dance-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 60px rgba(196, 30, 58, 1), 0 8px 20px rgba(0, 0, 0, 0.8);
+        }
+
+        .dance-button:active {
+            transform: scale(0.98);
+        }
+
+        @keyframes buttonPulse {
             0%, 100% {
-                opacity: 0.3;
-                transform: scale(1);
+                box-shadow: 0 0 40px rgba(196, 30, 58, 0.8), 0 8px 20px rgba(0, 0, 0, 0.6);
             }
             50% {
-                opacity: 0.6;
-                transform: scale(1.1);
+                box-shadow: 0 0 60px rgba(196, 30, 58, 1), 0 8px 30px rgba(0, 0, 0, 0.8);
             }
         }
 
-        /* Force full screen on all devices */
-        @media screen and (max-width: 1920px) {
-            #slide1, #slide2 {
-                background-size: cover !important;
-                background-position: center center !important;
+        /* Dance animations */
+        .shimmy {
+            animation: shimmy 0.15s ease-in-out infinite;
+        }
+
+        @keyframes shimmy {
+            0%, 100% {
+                transform: translate(-50%, -50%) rotate(-2deg);
+            }
+            50% {
+                transform: translate(-50%, -50%) rotate(2deg);
             }
         }
 
-        @media screen and (max-width: 768px) {
-            #slide1, #slide2 {
-                background-size: cover !important;
-                background-position: center center !important;
+        .shake-title {
+            animation: shakeTitle 0.3s ease-in-out infinite;
+        }
+
+        @keyframes shakeTitle {
+            0%, 100% {
+                transform: translateX(0);
             }
+            25% {
+                transform: translateX(-15px);
+            }
+            75% {
+                transform: translateX(15px);
+            }
+        }
+
+        /* Confetti particles */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #C41E3A;
+            top: -10px;
+            z-index: 100;
+            animation: confettiFall 3s linear forwards;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(110vh) rotate(720deg);
+                opacity: 0;
+            }
+        }
+
+        /* Creative Navigation - Animated arrow with ripple */
+        .nav-arrow-container {
+            position: absolute;
+            bottom: 80px;
+            right: 80px;
+            cursor: pointer;
+            z-index: 100;
+        }
+
+        /* Slide 1 navigation arrow with delay */
+        #slide1 .nav-arrow-container {
+            animation: fadeIn 1s ease-out 5s backwards;
+        }
+
+        /* Back arrow (left side) */
+        .nav-arrow-container.back {
+            left: 80px;
+            right: auto;
+        }
+
+        .nav-arrow-container.back .arrow-icon {
+            transform: rotate(180deg);
+        }
+
+        @keyframes arrowBounceLeft {
+            0%, 100% {
+                transform: translateX(0) rotate(180deg);
+            }
+            50% {
+                transform: translateX(-10px) rotate(180deg);
+            }
+        }
+
+        .nav-arrow-container.back .arrow-icon {
+            animation: arrowBounceLeft 1.5s ease-in-out infinite;
+        }
+
+        .nav-arrow {
+            position: relative;
+            width: 80px;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .arrow-circle {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border: 3px solid #C41E3A;
+            border-radius: 50%;
+            animation: arrowGlow 2s ease-in-out infinite;
+        }
+
+        .arrow-icon {
+            font-size: 40px;
+            color: #C41E3A;
+            text-shadow: 0 0 20px rgba(196, 30, 58, 0.8);
+            animation: arrowBounce 1.5s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        .ripple {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border: 2px solid #C41E3A;
+            border-radius: 50%;
+            animation: rippleEffect 2s ease-out infinite;
+            opacity: 0;
+        }
+
+        .ripple:nth-child(2) {
+            animation-delay: 0.5s;
+        }
+
+        .ripple:nth-child(3) {
+            animation-delay: 1s;
+        }
+
+        @keyframes arrowGlow {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(196, 30, 58, 0.6);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(196, 30, 58, 1);
+            }
+        }
+
+        @keyframes arrowBounce {
+            0%, 100% {
+                transform: translateX(0);
+            }
+            50% {
+                transform: translateX(10px);
+            }
+        }
+
+        @keyframes rippleEffect {
+            0% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+            100% {
+                transform: scale(2.5);
+                opacity: 0;
+            }
+        }
+
+        .nav-text {
+            position: absolute;
+            bottom: -35px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-family: 'Georgia', serif;
+            font-size: 16px;
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.8);
+            white-space: nowrap;
+            animation: textPulse 1.5s ease-in-out infinite;
         }
     </style>
 </head>
 <body>
-    <div class="reveal">
-        <div class="slides">
+    <!-- SLIDE 1 -->
+    <div class="slide active" id="slide1">
+        <div class="bg-container">
+            <!-- .LIVE indicator -->
+            <div class="live-indicator">.LIVE</div>
 
-            <!-- SLIDE 1 -->
-            <section id="slide1">
-                <!-- Animated gradient overlay -->
-                <div class="gradient-overlay"></div>
+            <!-- Shimmer -->
+            <div class="shimmer"></div>
 
-                <!-- Light rays from city -->
-                <div class="light-rays" id="lightRays"></div>
+            <!-- Vignette -->
+            <div class="vignette"></div>
 
-                <!-- Floating particles -->
-                <div class="particles" id="particles"></div>
+            <!-- Particles container -->
+            <div id="particles"></div>
 
-                <!-- Twinkling stars -->
-                <div class="stars" id="stars"></div>
+            <!-- Light rays container -->
+            <div id="lightRays"></div>
 
-                <!-- Vignette -->
-                <div class="vignette"></div>
+            <!-- Main Title -->
+            <div class="title-container">
+                <div class="the-text">The</div>
+                <div class="main-names">EBRO<br>LAURA<br>ROSENBERG</div>
+                <div class="show-text">Show</div>
 
-                <!-- Text glows -->
-                <div class="text-glow">
-                    <div class="name-glow glow-ebro"></div>
-                    <div class="name-glow glow-laura"></div>
-                    <div class="name-glow glow-rosenberg"></div>
+                <div class="divider"></div>
+
+                <div class="subtitle">WEBSITE PROPOSAL</div>
+
+                <div class="tagline">Where Friends of the Show come for <span class="emphasis">EVERYTHING</span></div>
+            </div>
+
+            <!-- Blood in the Water tagline -->
+            <div class="blood-text">THERE'S BLOOD IN THE WATER</div>
+            <div class="click-me" onclick="document.getElementById('bloodAudio').play()">click me</div>
+
+            <!-- Audio player (hidden) -->
+            <audio id="bloodAudio">
+                <source src="audio/audio.MP3" type="audio/mpeg">
+                <source src="audio/audio.mp4" type="audio/mp4">
+            </audio>
+
+            <!-- Creative Navigation Arrow for Slide 1 -->
+            <div class="nav-arrow-container" onclick="nextSlide()">
+                <div class="nav-arrow">
+                    <div class="ripple"></div>
+                    <div class="ripple"></div>
+                    <div class="ripple"></div>
+                    <div class="arrow-circle"></div>
+                    <div class="arrow-icon">→</div>
                 </div>
-
-                <!-- Glowing hotspots for bottom elements -->
-                <div class="glow-spot glow-onair"></div>
-                <div class="glow-spot glow-play"></div>
-                <div class="glow-spot glow-heart"></div>
-
-                <!-- Shimmer effect -->
-                <div class="shimmer"></div>
-            </section>
-
-            <!-- SLIDE 2 -->
-            <section id="slide2">
-            </section>
-
+                <div class="nav-text">next slide</div>
+            </div>
         </div>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/4.5.0/reveal.min.js"></script>
+    <!-- SLIDE 2 -->
+    <div class="slide" id="slide2">
+        <div class="bg-container">
+            <!-- Shimmer -->
+            <div class="shimmer"></div>
+
+            <!-- Vignette -->
+            <div class="vignette"></div>
+
+            <!-- Particles container -->
+            <div id="particles2"></div>
+
+            <!-- Light rays container -->
+            <div id="lightRays2"></div>
+
+            <!-- Slide 2 Content -->
+            <div class="slide2-content">
+                <div class="slide2-title">WHY THIS MATTERS NOW</div>
+
+                <div class="content-section">
+                    <div class="section-number">01</div>
+                    <div class="section-header">AUDIENCE BEHAVIOR<br>HAS EVOLVED</div>
+                    <div class="section-text">Fans now expect much more than highlight clips.</div>
+                </div>
+
+                <div class="content-section">
+                    <div class="section-number">02</div>
+                    <div class="section-header">THEY WANT A PLACE TO<br>ENGAGE WITH THE SHOW</div>
+                    <div class="section-text">Not just watch random posts across different platforms.</div>
+                </div>
+
+                <div class="content-section">
+                    <div class="section-number">03</div>
+                    <div class="section-header">A WEBSITE CAN BE<br><span class="highlight">THE CENTER</span> OF THIS</div>
+                    <div class="section-text">shared experience.</div>
+                </div>
+            </div>
+
+            <!-- Back Arrow (Left) -->
+            <div class="nav-arrow-container back" onclick="prevSlide()">
+                <div class="nav-arrow">
+                    <div class="ripple"></div>
+                    <div class="ripple"></div>
+                    <div class="ripple"></div>
+                    <div class="arrow-circle"></div>
+                    <div class="arrow-icon">→</div>
+                </div>
+                <div class="nav-text">back</div>
+            </div>
+
+            <!-- Next Arrow (Right) -->
+            <div class="nav-arrow-container" onclick="nextSlide()">
+                <div class="nav-arrow">
+                    <div class="ripple"></div>
+                    <div class="ripple"></div>
+                    <div class="ripple"></div>
+                    <div class="arrow-circle"></div>
+                    <div class="arrow-icon">→</div>
+                </div>
+                <div class="nav-text">next slide</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 3 -->
+    <div class="slide" id="slide3">
+        <div class="bg-container">
+            <!-- Shimmer -->
+            <div class="shimmer"></div>
+
+            <!-- Vignette -->
+            <div class="vignette"></div>
+
+            <!-- Particles container -->
+            <div id="particles3"></div>
+
+            <!-- Light rays container -->
+            <div id="lightRays3"></div>
+
+            <!-- Slide 3 Content -->
+            <div class="slide2-content">
+                <div class="slide2-title">THE ROLE OF THE WEBSITE</div>
+
+                <div class="content-section">
+                    <div class="section-number">01</div>
+                    <div class="section-header">MOST SHOW WEBSITES ARE<br>TREATED LIKE BROCHURES</div>
+                    <div class="section-text">A place to list links, episodes, and schedules.</div>
+                </div>
+
+                <div class="content-section">
+                    <div class="section-number">02</div>
+                    <div class="section-header">THAT'S NOT THE<br>OPPORTUNITY HERE</div>
+                    <div class="section-text">For ELR, the website can become the place where the show lives.</div>
+                </div>
+
+                <div class="content-section">
+                    <div class="section-number">03</div>
+                    <div class="section-header">THE WEBSITE BECOMES<br><span class="highlight">THE CENTER OF GRAVITY</span></div>
+                    <div class="section-text">The center where content, conversation, and community come together.</div>
+                </div>
+            </div>
+
+            <!-- Back Arrow (Left) -->
+            <div class="nav-arrow-container back" onclick="prevSlide()">
+                <div class="nav-arrow">
+                    <div class="ripple"></div>
+                    <div class="ripple"></div>
+                    <div class="ripple"></div>
+                    <div class="arrow-circle"></div>
+                    <div class="arrow-icon">→</div>
+                </div>
+                <div class="nav-text">back</div>
+            </div>
+
+            <!-- Next Arrow (Right) -->
+            <div class="nav-arrow-container" onclick="nextSlide()">
+                <div class="nav-arrow">
+                    <div class="ripple"></div>
+                    <div class="ripple"></div>
+                    <div class="ripple"></div>
+                    <div class="arrow-circle"></div>
+                    <div class="arrow-icon">→</div>
+                </div>
+                <div class="nav-text">next slide</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 4 -->
+    <div class="slide" id="slide4">
+        <div class="bg-container">
+            <!-- Shimmer -->
+            <div class="shimmer"></div>
+
+            <!-- Vignette -->
+            <div class="vignette"></div>
+
+            <!-- Particles container -->
+            <div id="particles4"></div>
+
+            <!-- Light rays container -->
+            <div id="lightRays4"></div>
+
+            <!-- Slide 4 Content -->
+            <div class="slide2-content">
+                <div class="slide2-title">LIVE SHOW ENHANCEMENTS</div>
+
+                <div class="content-section">
+                    <div class="section-number">01</div>
+                    <div class="section-header">THE BROADCAST REACHES<br>FANS EVERYWHERE</div>
+                    <div class="section-text">Apple CarPlay and Android Auto for commuters on the go.</div>
+                </div>
+
+                <div class="content-section">
+                    <div class="section-number">02</div>
+                    <div class="section-header">THE WEBSITE ADDS<br>A VISUAL LAYER</div>
+                    <div class="section-text">Live video streams for fans who want more than just audio.</div>
+                </div>
+
+                <div class="content-section">
+                    <div class="section-number">03</div>
+                    <div class="section-header">FANS DON'T JUST LISTEN—<br><span class="highlight">THEY PARTICIPATE</span></div>
+                    <div class="section-text">Real-time polls, comments, and interaction during the broadcast.</div>
+                </div>
+            </div>
+
+            <!-- Back Arrow (Left) -->
+            <div class="nav-arrow-container back" onclick="prevSlide()">
+                <div class="nav-arrow">
+                    <div class="ripple"></div>
+                    <div class="ripple"></div>
+                    <div class="ripple"></div>
+                    <div class="arrow-circle"></div>
+                    <div class="arrow-icon">→</div>
+                </div>
+                <div class="nav-text">back</div>
+            </div>
+
+            <!-- Next Arrow (Right) -->
+            <div class="nav-arrow-container" onclick="nextSlide()">
+                <div class="nav-arrow">
+                    <div class="ripple"></div>
+                    <div class="ripple"></div>
+                    <div class="ripple"></div>
+                    <div class="arrow-circle"></div>
+                    <div class="arrow-icon">→</div>
+                </div>
+                <div class="nav-text">next slide</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 5 -->
+    <div class="slide" id="slide5">
+        <div class="bg-container">
+            <!-- Shimmer -->
+            <div class="shimmer"></div>
+
+            <!-- Vignette -->
+            <div class="vignette"></div>
+
+            <!-- Particles container -->
+            <div id="particles5"></div>
+
+            <!-- Light rays container -->
+            <div id="lightRays5"></div>
+
+            <!-- Slide 5 Content -->
+            <div class="slide2-content">
+                <div class="slide2-title">BUILDING A CONTENT LIBRARY</div>
+
+                <div class="content-section">
+                    <div class="section-number">01</div>
+                    <div class="section-header">CONTENT GETS LOST<br>ACROSS PLATFORMS</div>
+                    <div class="section-text">YouTube uploads disappear in the feed. Social posts vanish after a day.</div>
+                </div>
+
+                <div class="content-section">
+                    <div class="section-number">02</div>
+                    <div class="section-header">THE WEBSITE CREATES<br>A PERMANENT HOME</div>
+                    <div class="section-text">Like Netflix—organized by series, seasons, and episodes.</div>
+                </div>
+
+                <div class="content-section">
+                    <div class="section-number">03</div>
+                    <div class="section-header">FULL EPISODES AND CLIPS,<br>ALL IN ONE PLACE</div>
+                    <div class="section-text">From complete broadcasts to viral moments, everything accessible.</div>
+                </div>
+
+                <div class="content-section">
+                    <div class="section-number">04</div>
+                    <div class="section-header"><span class="highlight">YOUR ARCHIVE</span> BECOMES<br>YOUR ASSET</div>
+                    <div class="section-text">Every show builds lasting value, not temporary visibility.</div>
+                </div>
+            </div>
+
+            <!-- Back Arrow (Left) -->
+            <div class="nav-arrow-container back" onclick="prevSlide()">
+                <div class="nav-arrow">
+                    <div class="ripple"></div>
+                    <div class="ripple"></div>
+                    <div class="ripple"></div>
+                    <div class="arrow-circle"></div>
+                    <div class="arrow-icon">→</div>
+                </div>
+                <div class="nav-text">back</div>
+            </div>
+
+            <!-- Next Arrow (Right) -->
+            <div class="nav-arrow-container" onclick="nextSlide()">
+                <div class="nav-arrow">
+                    <div class="ripple"></div>
+                    <div class="ripple"></div>
+                    <div class="ripple"></div>
+                    <div class="arrow-circle"></div>
+                    <div class="arrow-icon">→</div>
+                </div>
+                <div class="nav-text">next slide</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 6 -->
+    <div class="slide" id="slide6">
+        <div class="bg-container">
+            <!-- Shimmer -->
+            <div class="shimmer"></div>
+
+            <!-- Vignette -->
+            <div class="vignette"></div>
+
+            <!-- Particles container -->
+            <div id="particles6"></div>
+
+            <!-- Light rays container -->
+            <div id="lightRays6"></div>
+
+            <!-- Slide 6 Content -->
+            <div class="slide2-content">
+                <div class="slide2-title">WHO'S BUILDING THIS</div>
+
+                <div class="content-section">
+                    <div class="section-number">01</div>
+                    <div class="section-header">EXPERIENCE WITH BRANDS<br>WHERE EVERY DETAIL MATTERS</div>
+                    <div class="section-text">Starbucks, Warby Parker, Vital Farms, Lemonade Insurance—platforms built to perform at scale.</div>
+                </div>
+
+                <div class="content-section">
+                    <div class="section-number">02</div>
+                    <div class="section-header">NOT JUST A VENDOR—<br><span class="highlight">A FRIEND OF THE SHOW</span></div>
+                    <div class="section-text">Listening since 2018. I see how moments travel, how the community reacts, what fans hold onto.</div>
+                </div>
+
+                <div class="content-section">
+                    <div class="section-number">03</div>
+                    <div class="section-header">TECHNICAL EXPERTISE<br>GROUNDED IN THE AUDIENCE</div>
+                    <div class="section-text">Masters in Software Development. Minor in Psychology. Understanding both the code and the culture.</div>
+                </div>
+            </div>
+
+            <!-- Back Arrow (Left) -->
+            <div class="nav-arrow-container back" onclick="prevSlide()">
+                <div class="nav-arrow">
+                    <div class="ripple"></div>
+                    <div class="ripple"></div>
+                    <div class="ripple"></div>
+                    <div class="arrow-circle"></div>
+                    <div class="arrow-icon">→</div>
+                </div>
+                <div class="nav-text">back</div>
+            </div>
+
+            <!-- Next Arrow (Right) -->
+            <div class="nav-arrow-container" onclick="nextSlide()">
+                <div class="nav-arrow">
+                    <div class="ripple"></div>
+                    <div class="ripple"></div>
+                    <div class="ripple"></div>
+                    <div class="arrow-circle"></div>
+                    <div class="arrow-icon">→</div>
+                </div>
+                <div class="nav-text">next slide</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 7 -->
+    <div class="slide" id="slide7">
+        <div class="bg-container">
+            <!-- Shimmer -->
+            <div class="shimmer"></div>
+
+            <!-- Vignette -->
+            <div class="vignette"></div>
+
+            <!-- Particles container -->
+            <div id="particles7"></div>
+
+            <!-- Light rays container -->
+            <div id="lightRays7"></div>
+
+            <!-- Slide 7 Content -->
+            <div class="slide2-content">
+                <div class="slide2-title">THE BIGGER PICTURE</div>
+
+                <div class="content-section">
+                    <div class="section-number">01</div>
+                    <div class="section-header">NOT ANOTHER PLACE TO VISIT—<br><span class="highlight">THE FIRST PLACE THEY GO</span></div>
+                    <div class="section-text">Not adding to their list. Creating something so compelling fans choose it first.</div>
+                </div>
+
+                <div class="content-section">
+                    <div class="section-number">02</div>
+                    <div class="section-header">CONNECTED TO THE SHOW,<br>EVEN WHEN MICS ARE OFF</div>
+                    <div class="section-text">Shop merch. Submit for "Original Guru." Engage with the community. The show lives here.</div>
+                </div>
+
+                <div class="content-section">
+                    <div class="section-number">03</div>
+                    <div class="section-header">OVER TIME, IT BECOMES<br>PART OF THE RELATIONSHIP</div>
+                    <div class="section-text">Not a platform you built. A daily habit your audience keeps.</div>
+                </div>
+            </div>
+
+            <!-- Back Arrow (Left) -->
+            <div class="nav-arrow-container back" onclick="prevSlide()">
+                <div class="nav-arrow">
+                    <div class="ripple"></div>
+                    <div class="ripple"></div>
+                    <div class="ripple"></div>
+                    <div class="arrow-circle"></div>
+                    <div class="arrow-icon">→</div>
+                </div>
+                <div class="nav-text">back</div>
+            </div>
+
+            <!-- Next Arrow (Right) -->
+            <div class="nav-arrow-container" onclick="nextSlide()">
+                <div class="nav-arrow">
+                    <div class="ripple"></div>
+                    <div class="ripple"></div>
+                    <div class="ripple"></div>
+                    <div class="arrow-circle"></div>
+                    <div class="arrow-icon">→</div>
+                </div>
+                <div class="nav-text">next slide</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 8 - FINAL SLIDE -->
+    <div class="slide" id="slide8">
+        <div class="bg-container">
+            <!-- Shimmer -->
+            <div class="shimmer"></div>
+
+            <!-- Vignette -->
+            <div class="vignette"></div>
+
+            <!-- Particles container -->
+            <div id="particles8"></div>
+
+            <!-- Light rays container -->
+            <div id="lightRays8"></div>
+
+            <!-- Final Content -->
+            <div class="final-content" id="finalContent">
+                <div class="final-title" id="finalTitle">READY TO BUILD<br>THE FUTURE OF THE SHOW</div>
+                <div class="final-subtitle" id="finalSubtitle">LET'S DO THIS</div>
+                <div class="dance-button" id="danceButton" onclick="doTheDance()">DO THE DANCE</div>
+            </div>
+
+            <!-- Back Arrow (Left) - No Next Arrow -->
+            <div class="nav-arrow-container back" onclick="prevSlide()">
+                <div class="nav-arrow">
+                    <div class="ripple"></div>
+                    <div class="ripple"></div>
+                    <div class="ripple"></div>
+                    <div class="arrow-circle"></div>
+                    <div class="arrow-icon">→</div>
+                </div>
+                <div class="nav-text">back</div>
+            </div>
+
+            <!-- Dance Audio (hidden) -->
+            <audio id="danceAudio">
+                <source src="Dance/Dance.MP3" type="audio/mpeg">
+                <source src="Dance/Dance.mp4" type="audio/mp4">
+            </audio>
+        </div>
+    </div>
+
     <script>
-        // Initialize Reveal.js
-        Reveal.initialize({
-            hash: true,
-            transition: 'fade',
-            transitionSpeed: 'default',
-            controls: true,
-            progress: true,
-            center: false,
-            slideNumber: false,
-            width: '100%',
-            height: '100%',
-            margin: 0,
-            minScale: 1,
-            maxScale: 1,
-            embedded: false,
-            overview: true,
-            touch: true,
-            loop: false,
-            rtl: false,
-            shuffle: false,
-            fragments: true,
-            fragmentInURL: false,
-            help: true,
-            showNotes: false,
-            autoPlayMedia: null,
-            preloadIframes: null,
-            autoSlide: 0,
-            autoSlideStoppable: true,
-            defaultTiming: null,
-            mouseWheel: false,
-            hideInactiveCursor: true,
-            hideCursorTime: 5000,
-            previewLinks: false,
-            disableLayout: true
+        let currentSlide = 1;
+        let isDancing = false;
+
+        function nextSlide() {
+            // Don't navigate beyond slide 8 (final slide)
+            if (currentSlide >= 8) return;
+
+            // Stop audio if leaving slide 1
+            if (currentSlide === 1) {
+                const audio = document.getElementById('bloodAudio');
+                audio.pause();
+                audio.currentTime = 0;
+            }
+
+            document.getElementById('slide' + currentSlide).classList.remove('active');
+            currentSlide++;
+            document.getElementById('slide' + currentSlide).classList.add('active');
+
+            // Play audio if entering slide 1
+            if (currentSlide === 1) {
+                const audio = document.getElementById('bloodAudio');
+                audio.play().catch(error => {});
+            }
+        }
+
+        function prevSlide() {
+            // Stop audio if leaving slide 1
+            if (currentSlide === 1) {
+                const audio = document.getElementById('bloodAudio');
+                audio.pause();
+                audio.currentTime = 0;
+            }
+
+            // Stop dance if leaving slide 8
+            if (currentSlide === 8 && isDancing) {
+                stopTheDance();
+            }
+
+            document.getElementById('slide' + currentSlide).classList.remove('active');
+            currentSlide--;
+            if (currentSlide < 1) currentSlide = 8; // Loop to last slide
+            document.getElementById('slide' + currentSlide).classList.add('active');
+
+            // Play audio if entering slide 1
+            if (currentSlide === 1) {
+                const audio = document.getElementById('bloodAudio');
+                audio.play().catch(error => {});
+            }
+        }
+
+        function doTheDance() {
+            if (isDancing) return; // Prevent multiple clicks
+
+            isDancing = true;
+            const danceAudio = document.getElementById('danceAudio');
+            const finalContent = document.getElementById('finalContent');
+            const finalTitle = document.getElementById('finalTitle');
+            const finalSubtitle = document.getElementById('finalSubtitle');
+            const danceButton = document.getElementById('danceButton');
+
+            // Play dance audio
+            danceAudio.currentTime = 0;
+            danceAudio.play().catch(error => console.log('Audio play prevented'));
+
+            // Add shimmy animation to content
+            finalContent.classList.add('shimmy');
+
+            // Add shake animation to title and subtitle
+            finalTitle.classList.add('shake-title');
+            finalSubtitle.classList.add('shake-title');
+
+            // Change button text
+            danceButton.textContent = 'DANCING!';
+
+            // Create confetti explosion
+            createConfetti();
+
+            // Stop dancing after audio duration (let's say 10 seconds)
+            setTimeout(() => {
+                stopTheDance();
+            }, 10000);
+        }
+
+        function stopTheDance() {
+            isDancing = false;
+            const danceAudio = document.getElementById('danceAudio');
+            const finalContent = document.getElementById('finalContent');
+            const finalTitle = document.getElementById('finalTitle');
+            const finalSubtitle = document.getElementById('finalSubtitle');
+            const danceButton = document.getElementById('danceButton');
+
+            // Stop audio
+            danceAudio.pause();
+            danceAudio.currentTime = 0;
+
+            // Remove animations
+            finalContent.classList.remove('shimmy');
+            finalTitle.classList.remove('shake-title');
+            finalSubtitle.classList.remove('shake-title');
+
+            // Reset button text
+            danceButton.textContent = 'DO THE DANCE';
+        }
+
+        function createConfetti() {
+            const colors = ['#C41E3A', '#FFD700', '#FF6B6B', '#4A9FFF', '#FFFFFF'];
+
+            for (let i = 0; i < 50; i++) {
+                setTimeout(() => {
+                    const confetti = document.createElement('div');
+                    confetti.className = 'confetti';
+                    confetti.style.left = Math.random() * 100 + '%';
+                    confetti.style.background = colors[Math.floor(Math.random() * colors.length)];
+                    confetti.style.width = (Math.random() * 10 + 5) + 'px';
+                    confetti.style.height = (Math.random() * 10 + 5) + 'px';
+                    confetti.style.animationDuration = (Math.random() * 2 + 2) + 's';
+
+                    document.getElementById('slide8').appendChild(confetti);
+
+                    // Remove confetti after animation
+                    setTimeout(() => {
+                        confetti.remove();
+                    }, 4000);
+                }, i * 50);
+            }
+        }
+
+        // Keyboard navigation
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'ArrowRight' || e.key === ' ') {
+                // Don't go forward if on last slide
+                if (currentSlide < 8) {
+                    nextSlide();
+                }
+            } else if (e.key === 'ArrowLeft') {
+                prevSlide();
+            }
         });
 
-        // Generate floating particles
+        // Generate floating particles for Slide 1
         const particlesContainer = document.getElementById('particles');
-        for (let i = 0; i < 40; i++) {
+        for (let i = 0; i < 30; i++) {
             const particle = document.createElement('div');
             particle.className = 'particle';
             particle.style.left = Math.random() * 100 + '%';
@@ -475,28 +1594,191 @@
             particlesContainer.appendChild(particle);
         }
 
-        // Generate light rays (20 rays)
+        // Generate light rays for Slide 1
         const lightRaysContainer = document.getElementById('lightRays');
-        for (let i = 0; i < 20; i++) {
+        for (let i = 0; i < 15; i++) {
             const ray = document.createElement('div');
-            ray.className = 'ray';
-            ray.style.left = (i * 5) + '%';
+            ray.className = 'light-ray';
+            ray.style.left = (i * 6.67) + '%';
             ray.style.animationDelay = (i * 0.2) + 's';
             ray.style.animationDuration = (4 + Math.random() * 2) + 's';
             lightRaysContainer.appendChild(ray);
         }
 
-        // Generate twinkling stars (140 stars)
-        const starsContainer = document.getElementById('stars');
-        for (let i = 0; i < 140; i++) {
-            const star = document.createElement('div');
-            star.className = 'star';
-            star.style.left = Math.random() * 100 + '%';
-            star.style.top = Math.random() * 100 + '%';
-            star.style.animationDelay = Math.random() * 4 + 's';
-            star.style.animationDuration = (3 + Math.random() * 2) + 's';
-            starsContainer.appendChild(star);
+        // Generate floating particles for Slide 2
+        const particlesContainer2 = document.getElementById('particles2');
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.bottom = '-5%';
+            particle.style.animationDelay = Math.random() * 20 + 's';
+            particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+            particlesContainer2.appendChild(particle);
         }
+
+        // Generate light rays for Slide 2
+        const lightRaysContainer2 = document.getElementById('lightRays2');
+        for (let i = 0; i < 15; i++) {
+            const ray = document.createElement('div');
+            ray.className = 'light-ray';
+            ray.style.left = (i * 6.67) + '%';
+            ray.style.animationDelay = (i * 0.2) + 's';
+            ray.style.animationDuration = (4 + Math.random() * 2) + 's';
+            lightRaysContainer2.appendChild(ray);
+        }
+
+        // Generate floating particles for Slide 3
+        const particlesContainer3 = document.getElementById('particles3');
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.bottom = '-5%';
+            particle.style.animationDelay = Math.random() * 20 + 's';
+            particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+            particlesContainer3.appendChild(particle);
+        }
+
+        // Generate light rays for Slide 3
+        const lightRaysContainer3 = document.getElementById('lightRays3');
+        for (let i = 0; i < 15; i++) {
+            const ray = document.createElement('div');
+            ray.className = 'light-ray';
+            ray.style.left = (i * 6.67) + '%';
+            ray.style.animationDelay = (i * 0.2) + 's';
+            ray.style.animationDuration = (4 + Math.random() * 2) + 's';
+            lightRaysContainer3.appendChild(ray);
+        }
+
+        // Generate floating particles for Slide 4
+        const particlesContainer4 = document.getElementById('particles4');
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.bottom = '-5%';
+            particle.style.animationDelay = Math.random() * 20 + 's';
+            particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+            particlesContainer4.appendChild(particle);
+        }
+
+        // Generate light rays for Slide 4
+        const lightRaysContainer4 = document.getElementById('lightRays4');
+        for (let i = 0; i < 15; i++) {
+            const ray = document.createElement('div');
+            ray.className = 'light-ray';
+            ray.style.left = (i * 6.67) + '%';
+            ray.style.animationDelay = (i * 0.2) + 's';
+            ray.style.animationDuration = (4 + Math.random() * 2) + 's';
+            lightRaysContainer4.appendChild(ray);
+        }
+
+        // Generate floating particles for Slide 5
+        const particlesContainer5 = document.getElementById('particles5');
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.bottom = '-5%';
+            particle.style.animationDelay = Math.random() * 20 + 's';
+            particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+            particlesContainer5.appendChild(particle);
+        }
+
+        // Generate light rays for Slide 5
+        const lightRaysContainer5 = document.getElementById('lightRays5');
+        for (let i = 0; i < 15; i++) {
+            const ray = document.createElement('div');
+            ray.className = 'light-ray';
+            ray.style.left = (i * 6.67) + '%';
+            ray.style.animationDelay = (i * 0.2) + 's';
+            ray.style.animationDuration = (4 + Math.random() * 2) + 's';
+            lightRaysContainer5.appendChild(ray);
+        }
+
+        // Generate floating particles for Slide 6
+        const particlesContainer6 = document.getElementById('particles6');
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.bottom = '-5%';
+            particle.style.animationDelay = Math.random() * 20 + 's';
+            particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+            particlesContainer6.appendChild(particle);
+        }
+
+        // Generate light rays for Slide 6
+        const lightRaysContainer6 = document.getElementById('lightRays6');
+        for (let i = 0; i < 15; i++) {
+            const ray = document.createElement('div');
+            ray.className = 'light-ray';
+            ray.style.left = (i * 6.67) + '%';
+            ray.style.animationDelay = (i * 0.2) + 's';
+            ray.style.animationDuration = (4 + Math.random() * 2) + 's';
+            lightRaysContainer6.appendChild(ray);
+        }
+
+        // Generate floating particles for Slide 7
+        const particlesContainer7 = document.getElementById('particles7');
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.bottom = '-5%';
+            particle.style.animationDelay = Math.random() * 20 + 's';
+            particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+            particlesContainer7.appendChild(particle);
+        }
+
+        // Generate light rays for Slide 7
+        const lightRaysContainer7 = document.getElementById('lightRays7');
+        for (let i = 0; i < 15; i++) {
+            const ray = document.createElement('div');
+            ray.className = 'light-ray';
+            ray.style.left = (i * 6.67) + '%';
+            ray.style.animationDelay = (i * 0.2) + 's';
+            ray.style.animationDuration = (4 + Math.random() * 2) + 's';
+            lightRaysContainer7.appendChild(ray);
+        }
+
+        // Generate floating particles for Slide 8
+        const particlesContainer8 = document.getElementById('particles8');
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.left = Math.random() * 100 + '%';
+            particle.style.bottom = '-5%';
+            particle.style.animationDelay = Math.random() * 20 + 's';
+            particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+            particlesContainer8.appendChild(particle);
+        }
+
+        // Generate light rays for Slide 8
+        const lightRaysContainer8 = document.getElementById('lightRays8');
+        for (let i = 0; i < 15; i++) {
+            const ray = document.createElement('div');
+            ray.className = 'light-ray';
+            ray.style.left = (i * 6.67) + '%';
+            ray.style.animationDelay = (i * 0.2) + 's';
+            ray.style.animationDuration = (4 + Math.random() * 2) + 's';
+            lightRaysContainer8.appendChild(ray);
+        }
+
+        // Audio control - only play on slide 1
+        const audio = document.getElementById('bloodAudio');
+
+        // Try to play audio when page loads (slide 1 is default)
+        setTimeout(() => {
+            const playPromise = audio.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    // Autoplay was prevented, will play on user click via "click me"
+                    console.log('Audio autoplay prevented');
+                });
+            }
+        }, 500); // Small delay to ensure page is loaded
     </script>
 </body>
 </html>
